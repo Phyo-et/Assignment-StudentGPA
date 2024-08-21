@@ -1,15 +1,57 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+
+public class Main {
+    static BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+    static Student[] studentArr = new Student[60];
+
+    public static Student getStudentInfo()throws IOException{
+        System.out.print("Enter the Student Name : ");
+        String name = br.readLine();
+        System.out.print("Enter the Student Nickname : ");
+        String nickName = br.readLine();
+        System.out.print("Enter the Student Address1 : ");
+        String address1 = br.readLine();
+        System.out.print("Enter the Student Address2 ( Type Enter to skip ) : ");
+        String address2 = br.readLine();
+
+        int[] marks = new int[6];
+        for (int i = 0; i < 6; i++) {
+            System.out.print("Subject " + (i + 1) + ":");
+            int mark = Integer.parseInt(br.readLine());
+            marks[i] = mark;
         }
+        Student student;
+        if (address2.isEmpty()) {
+            student= new Student(name,nickName,address1,marks);
+        }else{
+            student = new Student(name,nickName,address1,address2,marks);
+        }
+        return null;
+    }
+
+    public static void main(String[] args)throws IOException {
+        getStudentInfo();
+        String flag ="";
+
+        do {
+            Student student = getStudentInfo();
+            studentArr[Student.getStudentCount()-1]=student;
+            System.out.print("Do u want to enter new Student? (Yes/No)");
+            flag = br.readLine();
+        }
+        while(flag.equalsIgnoreCase("yes"));
+            display();
+
+    }
+    public static void display(){
+        for(int i = 0; i<Student.getStudentCount()-1;i++){
+            studentArr[i].display();
+        }
+        System.out.print("Mean Mark :"+Student.getMeanMarks() +"\n");
+        System.out.print("Total Students : "+ Student.getStudentCount());
+        System.out.println(Student.getStudentCount());
     }
 }
